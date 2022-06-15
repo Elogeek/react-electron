@@ -9,6 +9,8 @@ const ipcLogger = require('./logger');
 const ipcNotifications = require('./notification');
 const ApplicationMenu = require('./menu');
 const TrayIcon = require('./tray');
+const ElectronStore = require('electron-store');
+const store = new ElectronStore();
 
 let mainWindow = null;
 function makeWindow() {
@@ -58,4 +60,17 @@ app.whenReady().then(() => {
     // Application menu.
     const menu = new ApplicationMenu(mainWindow);
     Menu.setApplicationMenu(menu.getMenu());
+
+    // Admettons qu'on souhaite sauvegarder la valeur 42 avec comme clé d'accès 'data-key'
+    store.set('data-key', 42);
+
+    // Et qu'on ait besoin de la récupérer
+    const data = store.get('data-key');
+    console.log((data));
+
+    // Supprimer la clé et sa valeur
+    store.delete('data-key');
+    // Here value undefined car la clé n'existe plus
+    console.log(store.get('data-key'));
+
 });
