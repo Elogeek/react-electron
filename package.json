@@ -6,7 +6,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "electron-dev": "concurrently 'npm run start' 'wait-on http://127.0.0.1:3000 && electron .'"
+    "electron-dev": "concurrently \"npm run start\" \"wait-on http://127.0.0.1:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": [
