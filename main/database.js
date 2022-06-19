@@ -1,9 +1,9 @@
-const  {Sequelize} = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize');
 
+// Defines database connection.
 class Database {
 
     constructor(databasePath) {
-
         this.connected = false;
         this.sequelize = new Sequelize({
             dialect: 'sqlite',
@@ -11,33 +11,34 @@ class Database {
         });
 
         this.sequelize.authenticate()
-            .then(()=>this.connected = true)
+            .then(() => this.connected = true)
         ;
         this.initModels();
     }
 
     /**
-     * Initialize models
+     * Initialize models.
      */
     initModels = () => {
         this.Text = this.sequelize.define('Text', {
             content: {
-                type: Database.STRING,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
         });
+
         this.Text.sync({force: true});
     }
 
+
     initRequests = (ipcMain) => {
-        // Adding new text
+        // Adding new Text
         ipcMain.handle('database-add-text', async (event, textData) => {
-            await this.Text.create( {
+            await this.Text.create({
                 content: textData,
             });
         });
     }
-
 }
 
 module.exports = Database;

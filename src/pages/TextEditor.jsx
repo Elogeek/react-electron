@@ -36,8 +36,8 @@ export const TextEditor = function({theme}) {
                 <Button
                     justifyContent={'start'}
                     icon={<i className="icons10-create-new"></i>}
-                    value="Sauvegarder en BDD"
-                    onClick={() => window.database.createText(content)}
+                    value="Charger"
+                    onClick={() => window.file.read().then(data => setContent(data))}
                 />
 
                 {/* Mise à jour de la valeur du paramètre stocké data-key depuis le script de préchargement vers le main process */}
@@ -50,6 +50,17 @@ export const TextEditor = function({theme}) {
                     }}
                 />
 
+                <Button
+                    justifyContent={'start'}
+                    value="Sauvegarder en BDD"
+                    onClick={() => window.database.createText(content)}
+                />
+
+                <Button
+                    justifyContent={'start'}
+                    value="Bouton appel API"
+                    onClick={() => window.api.postText(content)}
+                />
             </ButtonsContainer>
         </AppWrapper>
     );

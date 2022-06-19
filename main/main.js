@@ -1,16 +1,11 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron');
-const isDev = require('electron-is-dev');
-const path = require('path');
-const fs = require('fs');
-
-const ipcDialog = require('./dialog');
 const ipcFile = require('./files');
 const ipcLogger = require('./logger');
 const ipcNotifications = require('./notification');
 const ApplicationMenu = require('./menu');
 const TrayIcon = require('./tray');
-const ipcStore = require("./storage");
-const Database = require("./database");
+const ipcStore = require('./storage');
+const Database = require('./database');
+const fetch = require('node-fetch');
 
 let mainWindow = null;
 function makeWindow() {
@@ -36,6 +31,7 @@ function makeWindow() {
 // Create app when electron is ready.
 app.whenReady().then(() => {
     makeWindow();
+    process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) {
@@ -57,11 +53,23 @@ app.whenReady().then(() => {
     ipcFile.init(mainWindow, ipcMain, fs);
     ipcLogger.init(ipcMain);
     new ipcStore().init(ipcMain);
-    const db = new Database(path.resolve(__dirname,'../assets/database.db'));
+
+    const db = new Database(path.resolve(__dirname, '../assets/database.db'));
     db.initRequests(ipcMain);
 
     // Application menu.
     const menu = new ApplicationMenu(mainWindow);
     Menu.setApplicationMenu(menu.getMenu());
-    
+
+    ipcMain.handle('post-text', async (event, data) => {
+        const init = {
+            method: 'POST',
+            body: JSON.stringify({content: data}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const result = await fetch('https://localhost:8000/api/text', init);
+        console.log(await result.json());
+    });
 });

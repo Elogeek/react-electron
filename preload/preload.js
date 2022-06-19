@@ -15,3 +15,8 @@ contextBridge.exposeInMainWorld('notification', {
         ipcRenderer.once('show-notification-clicked', callable);
     },
 });
+
+
+contextBridge.exposeInMainWorld('api', {
+    postText: content => ipcRenderer.invoke('post-text', content),
+});
