@@ -10,6 +10,7 @@ const ipcNotifications = require('./notification');
 const ApplicationMenu = require('./menu');
 const TrayIcon = require('./tray');
 const ipcStore = require("./storage");
+const Database = require("./database");
 
 let mainWindow = null;
 function makeWindow() {
@@ -56,6 +57,8 @@ app.whenReady().then(() => {
     ipcFile.init(mainWindow, ipcMain, fs);
     ipcLogger.init(ipcMain);
     new ipcStore().init(ipcMain);
+    const db = new Database(path.resolve(__dirname,'../assets/database.db'));
+    db.initRequests(ipcMain);
 
     // Application menu.
     const menu = new ApplicationMenu(mainWindow);

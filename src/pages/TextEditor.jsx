@@ -36,8 +36,8 @@ export const TextEditor = function({theme}) {
                 <Button
                     justifyContent={'start'}
                     icon={<i className="icons10-create-new"></i>}
-                    value="Charger"
-                    onClick={() => window.file.read().then(data => setContent(data))}
+                    value="Sauvegarder en BDD"
+                    onClick={() => window.database.createText(content)}
                 />
 
                 {/* Mise à jour de la valeur du paramètre stocké data-key depuis le script de préchargement vers le main process */}

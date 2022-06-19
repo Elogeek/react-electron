@@ -40,6 +40,8 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-windows-ui": "^4.0.8",
+    "sequelize": "^6.21.0",
+    "sqlite3": "^5.0.8",
     "styled-components": "^5.3.5",
     "wait-on": "^6.0.1"
   }
