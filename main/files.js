@@ -1,9 +1,11 @@
 // Writing file.
 const {dialog} = require('electron');
+const {path} = require ('path');
+const {fs} = require('fs');
 
 const ipcFile = {
 
-    init: (mainWindow, ipcMain, fs) => {
+    init: (mainWindow, ipcMain) => {
 
         ipcMain.handle('save-file', async (event, content) => {
             dialog.showSaveDialog(mainWindow, {
@@ -28,7 +30,7 @@ const ipcFile = {
         });
 
 
-        // Reading file.
+        // Readin file.
         ipcMain.handle('read-file', (event) => {
             const result = dialog.showOpenDialogSync(mainWindow, {
                 title: "Choisissez un fichier",
@@ -42,14 +44,14 @@ const ipcFile = {
             });
 
             if (result) {
-                console.log(result);
                 try {
                     const data = fs.readFileSync(result[0]);
                     return data.toString();
                 } catch (err) {
-                    dialog.showErrorBox("Erreur", "Impossible de lire le fichier" + err);
+                    dialog.showErrorBox("Erreur", "Impossible de lire le fichier");
                 }
             }
+
         });
     }
 }

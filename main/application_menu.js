@@ -54,9 +54,40 @@ class ApplicationMenu {
                     click: () => {
                         dialog.showMessageBox(this.mainWindow, {
                             title: "Hello World !",
-                            message: "Ceci est un simple Hello world, n'en tenez pas compte et faites quelque chose d'intéressant à la place.",
+                            message: "Ceci est un simple Hello world.",
                         })
                     },
+                }
+            ],
+        }, {
+            label: "Réactions",
+            submenu: [
+                {
+                    label: "Afficher 'saveDialog'",
+                    accelerator: "ctrl+s",
+                    click: () => {
+                        const file = dialog.showSaveDialogSync(this.mainWindow, {});
+                    },
+                    submenu: [
+                        {
+                            label: "Maintenant",
+                            submenu: [
+                                {
+                                    label: "OK",
+                                    type: 'checkbox',
+                                    checked: true,
+                                },
+                                {
+                                    label: "NOK",
+                                    type: 'radio',
+                                    checked: true,
+                                },
+                            ]
+                        },
+                        {label: "Demain"},
+                        {label: "Si j'ai envie"},
+                        {label: "On verra !"},
+                    ]
                 }
             ],
         }
